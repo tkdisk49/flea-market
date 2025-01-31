@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoryItemsTable extends Migration
+class CreatePurchasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCategoryItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_items', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('address_id')->constrained()->cascadeOnDelete();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('created_at')->useCurrent()->nullable();
-            $table->timestamp('updated_at')->useCurrent()->nullable();
+            $table->tinyInteger('payment_method')->comment('1:コンビニ支払い, 2:カード支払い');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateCategoryItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_items');
+        Schema::dropIfExists('purchases');
     }
 }
