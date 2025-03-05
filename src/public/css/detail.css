@@ -1,0 +1,267 @@
+.detail__container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    flex-wrap: wrap;
+}
+
+.detail__item-image {
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.detail__item-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.detail__item-contents {
+    flex: 1;
+    width: 100%;
+    max-width: 570px;
+    margin: 0 auto;
+}
+
+.item__name {
+    font-size: 45px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.item__brand {
+    font-size: 20px;
+    margin: 0;
+}
+
+.item__price {
+    font-size: 30px;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.item__price-value {
+    font-size: 45px;
+}
+
+.detail__buttons {
+    display: flex;
+    gap: 50px;
+    margin: 5px 20px;
+    flex-wrap: wrap;
+}
+
+.like__button-submit {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like__icon {
+    width: 40px;
+    height: 40px;
+    filter: grayscale(100%);
+}
+
+.like__icon.liked {
+    filter: grayscale(0%) brightness(1.8) sepia(1) hue-rotate(40deg) saturate(5);
+}
+
+.like__count,
+.comment__count {
+    text-align: center;
+    margin: 0;
+    font-size: 20px;
+}
+
+.comment__icon {
+    width: 40px;
+    height: 40px;
+}
+
+.detail__purchase {
+    margin: 10px 0;
+}
+
+.purchase__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 100%;
+    max-width: 570px;
+    height: 56px;
+    background-color: #ff5555;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.purchase__sold {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 570px;
+    height: 56px;
+    background-color: #5f5f5f;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 30px;
+}
+
+.detail__description {
+    margin: 40px 0;
+}
+
+.description__title,
+.info__title,
+.comment__title {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.description__content {
+    padding: 20px 0;
+    font-size: 24px;
+}
+
+.detail__info {
+    margin: 40px 0;
+}
+
+.info__title {
+    margin: 30px 0 0 0;
+}
+
+.info__table {
+    width: 100%;
+    border: none;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.info__row {
+    width: 100%;
+}
+
+.info__category-title,
+.info__condition-title {
+    width: 30%;
+    min-width: 130px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.info__category-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    min-width: 100px;
+    height: 30px;
+    margin: 10px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    background-color: #d9d9d9;
+    font-size: 20px;
+}
+
+.info__condition-content {
+    display: inline-block;
+    margin: 10px;
+    padding: 8px 12px;
+    font-size: 20px;
+}
+
+.comment__title {
+    color: #5f5f5f;
+    margin: 30px 0 0 0;
+}
+
+.comment__group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.comment__user-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment__user-name {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.comment__content-text {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    min-height: 70px;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    padding: 10px;
+    word-wrap: break-word;
+    white-space: normal;
+    font-size: 20px;
+}
+
+.comment-form__title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    margin-top: 40px;
+}
+
+.comment-form__textarea textarea {
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    border: 2px solid #5f5f5f;
+    border-radius: 5px;
+    font-size: 20px;
+    resize: both;
+}
+
+.comment-form__submit {
+    margin: 40px 0;
+}
+
+.comment-form__submit-btn {
+    cursor: pointer;
+    width: 100%;
+    height: 55px;
+    border-radius: 4px;
+    background-color: #ff5555;
+    font-size: 25px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+}
+
+.comment-form__error {
+    font-size: 24px;
+    color: red;
+}
+
+.session__error-message {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    color: red;
+    font-size: 24px;
+}

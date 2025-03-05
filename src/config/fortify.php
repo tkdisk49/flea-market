@@ -131,6 +131,10 @@ return [
     |
     */
 
+    'redirects' => [
+        'register' => '/mypage/profile',
+    ],
+
     'views' => true,
 
     /*

@@ -9,8 +9,15 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'user_id',
+        'name',
+        'price',
+        'image',
+        'description',
+        'condition',
+        'brand',
+        'status',
     ];
 
     public function user()
@@ -35,6 +42,6 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_item');
+        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
     }
 }

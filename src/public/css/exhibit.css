@@ -1,0 +1,213 @@
+.exhibit__container {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 20px 15px;
+    text-align: center;
+}
+
+.exhibit__header h2 {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.exhibit__form {
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+.exhibit-form__group {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.exhibit-form__group p {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.exhibit__section {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.exhibit-form__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 150px;
+    border: 1px dotted #5f5f5f;
+    border-radius: 4px;
+    position: relative;
+}
+
+.exhibit__file-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.custom__file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    max-width: 165px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ff5655;
+    border: 2px solid #ff5555;
+    border-radius: 10px;
+}
+
+.exhibit__section {
+    width: 100%;
+    border-bottom: 1px solid #5f5f5f;
+}
+
+.exhibit__section h3 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+    color: #5f5f5f;
+    text-align: left;
+}
+
+.category-form__group {
+    padding: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-label {
+    display: inline-block;
+    padding: 5px 20px;
+    border: 2px solid #ff5655;
+    border-radius: 20px;
+    color: #ff5655;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.select__wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.condition-select {
+    appearance: none;
+    background-color: #fff;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    color: #5f5f5f;
+    cursor: pointer;
+}
+
+.select__wrapper::after {
+    content: "▼";
+    font-size: 16px;
+    color: #5f5f5f;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Firefoxの矢印を削除 */
+select::-ms-expand {
+    display: none;
+}
+
+.exhibit-form__group input {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+}
+
+.exhibit-form__group textarea {
+    width: 100%;
+    height: 125px;
+    resize: none;
+    border: 1px solid #5f5f5f;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+}
+
+.exhibit-form__submit {
+    padding: 50px 0;
+}
+
+.exhibit-form__submit input {
+    display: block;
+    width: 100%;
+    height: 60px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff5555;
+    color: #fff;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+
+.price__container {
+    position: relative;
+    display: block;
+}
+
+.price__container input {
+    width: 100%;
+    padding-left: 20px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.price__container::before {
+    content: "¥";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"]:checked + label {
+    background-color: #ff5655;
+    color: white;
+}
+
+.form__error-message {
+    font-size: 16px;
+    color: red;
+}

@@ -1,0 +1,160 @@
+.profile__container {
+    max-width: 1540px;
+    margin: 0 auto;
+}
+
+.profile__header {
+    width: 100%;
+    max-width: 1000px;
+    margin: 70px auto;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile__img img {
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile__header-text {
+    width: 100%;
+    margin-left: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile__header-text p,
+.profile__header-text a {
+    display: block;
+}
+
+.profile__header-text p {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile__header-text a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 310px;
+    height: 60px;
+    border: 2px solid #ff5555;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #ff5555;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.profile__tab-menu {
+    display: flex;
+    gap: 40px;
+    border-bottom: 2px solid #5f5f5f;
+    margin-top: 50px;
+    padding-left: 150px;
+    padding-bottom: 5px;
+}
+
+.profile__tab-menu a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #5f5f5f;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+.profile__tab-menu a.active {
+    color: #ff0000;
+}
+
+.profile__item-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px;
+    padding: 50px 30px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.item__card {
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 290px;
+    margin: 0 auto;
+}
+
+.item__card img {
+    width: 100%;
+    max-width: 290px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item__name {
+    font-size: 25px;
+    margin: 5px 0;
+    width: 100%;
+    text-align: left;
+}
+
+.item__sold {
+    font-size: 18px;
+    margin: 5px 0;
+    color: #ff0000;
+}
+
+@media screen and (max-width: 1200px) {
+    .item__card img {
+        max-width: 250px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .profile__header-text {
+        margin-left: 40px;
+    }
+
+    .profile__header-text p {
+        font-size: 30px;
+    }
+
+    .item__card img {
+        max-width: 220px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .item__card img {
+        max-width: 180px;
+    }
+
+    .profile__header-text p {
+        font-size: 26px;
+    }
+
+    .profile__header-text a {
+        width: 240px;
+        font-size: 22px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .item__card img {
+        max-width: 150px;
+    }
+}

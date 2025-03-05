@@ -47,9 +47,9 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function addresses()
+    public function address()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasOne(Address::class);
     }
 
     public function items()
@@ -65,5 +65,10 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 }
