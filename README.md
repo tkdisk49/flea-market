@@ -53,7 +53,12 @@ MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=noreply@example.com
 MAIL_FROM_NAME="${APP_NAME}"
+
+STRIPE_KEY= (Stripe API 公開可能キー)
+STRIPE_SECRET= (Stripe API シークレットキー)
 ```
+
+> Stripe API キーの取得に関しては後述しています
 
 4. アプリケーションキーの作成
 
@@ -79,11 +84,44 @@ php artisan storage:link
 php artisan db:seed
 ```
 
+> シーディングで追加されるユーザーはダミーデータ商品出品者なので、会員登録画面で任意のユーザーを作成してから認証済み機能を使用してください。
+
+## メール認証機能(Mailhog)
+
+会員登録後に認証必須の項目にアクセスするには、メール認証が必要です。
+会員登録ページにて任意の情報を登録し、メール認証画面に遷移したら [Mailhog](http://localhost:8025/) へアクセスし認証を完了してください。
+
+> 認証済みの機能を使用する場合は、会員登録後に mailhog:http://localhost:8025/ へ接続し、メール認証を完了してください。
+
+## Stripe テスト決済機能のセットアップ
+
+商品を購入する際、購入ボタンを押下すると Stripe のテスト決済ページに遷移するようになっています。
+Stripe のアカウントを所持していない場合は、[Stripe](https://stripe.com/jp) から会員登録を行ってください。
+
+1. ログイン後[Stripe ダッシュボード](https://dashboard.stripe.com/test/apikeys) から、自身のテスト用公開可能キーとシークレットキーを取得
+2. `.env`ファイルを、以下のように変更
+
+```env
+STRIPE_KEY= 公開可能キー
+STRIPE_SECRET= シークレットキー
+```
+
+3. 環境の更新
+
+```bash
+php artisan config:clear
+php artisan cache:clear
+```
+
 ## 使用技術（実行環境）
 
 - PHP 8.3.11
 - Laravel 8.83.29
 - MySQL 8.0.26
+- Composer
+- Docker
+- Mailhog(メール認証機能)
+- Stripe(決済システム)
 
 ## ER 図
 
