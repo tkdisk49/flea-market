@@ -37,7 +37,7 @@ composer update
 
 3. 「.env.example」ファイルから「.env」を作成し、環境変数を変更
 
-```text
+```env
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -90,8 +90,6 @@ php artisan db:seed
 
 会員登録後に認証必須の項目にアクセスするには、メール認証が必要です。
 会員登録ページにて任意の情報を登録し、メール認証画面に遷移したら [Mailhog](http://localhost:8025/) へアクセスし認証を完了してください。
-
-> 認証済みの機能を使用する場合は、会員登録後に mailhog:http://localhost:8025/ へ接続し、メール認証を完了してください。
 
 ## Stripe テスト決済機能のセットアップ
 
