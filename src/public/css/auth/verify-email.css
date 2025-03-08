@@ -19,6 +19,8 @@
 .alert-resend {
     font-size: 20px;
     font-weight: 400;
+    color: blue;
+    padding-top: 30px;
 }
 
 .resend-email-btn {

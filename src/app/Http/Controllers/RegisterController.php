@@ -34,7 +34,7 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            return redirect()->route('show.edit.profile');
+            return redirect()->route('profile.edit');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => '登録に失敗しました。']);

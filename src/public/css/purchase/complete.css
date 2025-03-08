@@ -1,0 +1,15 @@
+.thanks__container {
+    width: 100%;
+    max-width: 1540px;
+    height: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.thanks__container p {
+    font-size: 36px;
+    font-weight: bold;
+}

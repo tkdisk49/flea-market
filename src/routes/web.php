@@ -26,16 +26,13 @@ Route::get('/search', [ItemController::class, 'search'])->name('items.search');
 
 Route::get('/item/{id}', [ItemController::class, 'detail'])->name('detail');
 
-// Thanksページの表示
-Route::get('/purchase/complete', function () {
-    return view('purchase.complete');
-})->name('purchase.complete');
-
 Route::get('/login', [AuthenticatedSessionController::class, 'show'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/purchase/complete', [PurchaseController::class, 'thanks'])->name('purchase.complete');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->name('verification.notice');
@@ -44,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/mypage/profile', [ProfileController::class, 'show'])->name('show.edit.profile');
+    Route::get('/mypage/profile', [ProfileController::class, 'show'])->name('profile.edit');
     Route::get('/mypage', [ProfileController::class, 'mypage'])->name('mypage');
     Route::patch('/mypage/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -59,4 +56,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/purchase/{id}/payment_method', [PurchaseController::class, 'updatePaymentMethod'])->name('purchase.update-payment');
     Route::get('/purchase/address/{id}', [PurchaseController::class, 'changeAddress'])->name('purchase.change-address');
     Route::patch('/purchase/address/update', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
+
+    Route::post('/checkout', [PurchaseController::class, 'checkout'])->name('purchase.checkout');
+    Route::get('/checkout/success', [PurchaseController::class, 'success'])->name('purchase.success');
+    Route::get('/checkout/cancel', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
 });

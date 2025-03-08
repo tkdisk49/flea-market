@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/purchase/purchase.css') }}">
 @endsection
 
 @section('content')
@@ -33,8 +33,8 @@
                     <div class="payment__select-wrapper">
                         <select name="payment_method" class="payment__info-input" onchange="this.form.submit()">
                             <option disabled selected>選択してください</option>
-                            <option value="1" {{ $paymentMethod == '1' ? 'selected' : '' }}>コンビニ支払い</option>
-                            <option value="2" {{ $paymentMethod == '2' ? 'selected' : '' }}>カード支払い</option>
+                            <option value="konbini" {{ $paymentMethod == 'konbini' ? 'selected' : '' }}>コンビニ支払い</option>
+                            <option value="card" {{ $paymentMethod == 'card' ? 'selected' : '' }}>カード支払い</option>
                         </select>
                     </div>
                     @error('payment_method')
@@ -68,9 +68,9 @@
                     <tr class="info-group__row">
                         <th class="info-group__header">支払い方法</th>
                         <td class="info-group__text">
-                            @if ($paymentMethod == '1')
+                            @if ($paymentMethod == 'konbini')
                                 コンビニ支払い
-                            @elseif ($paymentMethod == '2')
+                            @elseif ($paymentMethod == 'card')
                                 カード支払い
                             @else
                                 未選択
@@ -81,10 +81,11 @@
             </div>
 
             <div class="purchase__submit">
-                <form action="{{ route('purchase.store', ['id' => $item->id]) }}" method="POST">
+                <form action="{{ route('purchase.checkout') }}" method="POST">
                     @csrf
                     <input type="hidden" name="address_id" value="{{ Auth::user()->address->id }}">
                     <input type="hidden" name="payment_method" value="{{ $paymentMethod }}">
+                    <input type="hidden" name="item_id" value="{{ $item->id }}">
                     <input type="submit" class="purchase__submit-btn" value="購入する">
                 </form>
             </div>

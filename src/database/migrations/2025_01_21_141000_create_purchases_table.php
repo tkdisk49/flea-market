@@ -18,7 +18,7 @@ class CreatePurchasesTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('address_id')->constrained()->cascadeOnDelete();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-            $table->tinyInteger('payment_method')->comment('1:コンビニ支払い, 2:カード支払い');
+            $table->string('payment_method');
             $table->timestamps();
         });
     }

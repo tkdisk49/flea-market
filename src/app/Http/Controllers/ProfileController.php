@@ -16,7 +16,7 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        return view('edit');
+        return view('profile.edit');
     }
 
     public function mypage(Request $request)
@@ -34,7 +34,7 @@ class ProfileController extends Controller
             return redirect()->route('mypage', ['page' => 'sell']);
         }
 
-        return view('profile', compact('items', 'page'));
+        return view('profile.profile', compact('items', 'page'));
     }
 
     public function update(ProfileRequest $profileRequest, AddressRequest $addressRequest)
@@ -77,6 +77,6 @@ class ProfileController extends Controller
             ]);
         }
 
-        return redirect()->route('home');
+        return redirect()->route('mypage');
     }
 }

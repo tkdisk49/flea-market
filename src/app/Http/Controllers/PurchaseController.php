@@ -10,10 +10,14 @@ use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Stripe\Checkout\Session as StripeSession;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Stripe;
 
 class PurchaseController extends Controller
 {
-    const SOLD = 2;
+    const ITEM_SOLD = 2;
 
     public function show(Request $request, $id)
     {
@@ -23,7 +27,7 @@ class PurchaseController extends Controller
 
         $paymentMethod = $request->session()->get('payment_method');
 
-        if ($item->status === self::SOLD) {
+        if ($item->status === self::ITEM_SOLD) {
             return redirect()->route('detail', ['id' => $id])->with('error', 'この商品は売り切れです');
         }
 
@@ -37,33 +41,85 @@ class PurchaseController extends Controller
         return redirect()->route('purchase.show', ['id' => $id]);
     }
 
-    public function store(PurchaseRequest $request, $id)
+    public function checkout(PurchaseRequest $request)
     {
-        DB::beginTransaction();
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $item = Item::findOrFail($request->item_id);
+        $paymentMethod = $request->payment_method;
+
+        if ($paymentMethod === 'konbini') {
+            $paymentType = ['konbini'];
+        } else {
+            $paymentType = ['card'];
+        }
+
+        $session = StripeSession::create([
+            'payment_method_types' => $paymentType,
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'unit_amount' => $item->price,
+                    'product_data' => [
+                        'name' => $item->name,
+                    ],
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('purchase.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('purchase.cancel'),
+            'metadata' => [
+                'item_id' => $item->id,
+                'payment_method' => $paymentMethod,
+            ],
+        ]);
+
+        return Redirect::away($session->url);
+    }
+
+    public function success(Request $request)
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
+            $session_id = $request->query('session_id');
+
+            if (!$session_id) {
+                return redirect()->route('home')->with('error', '決済情報を取得できませんでした');
+            }
+
+            $session = StripeSession::retrieve($session_id);
+
             $user = Auth::user();
-            $item = Item::findOrFail($id);
+            $item = Item::findOrFail($session->metadata->item_id);
+            $paymentMethod = $session->metadata->payment_method;
+
+            DB::beginTransaction();
 
             Purchase::create([
                 'user_id' => $user->id,
-                'item_id' => $id,
-                'address_id' => $request->address_id,
-                'payment_method' => $request->payment_method,
+                'item_id' => $item->id,
+                'address_id' => $user->address->id,
+                'payment_method' => $paymentMethod,
             ]);
 
-            $item->update(['status' => self::SOLD]);
+            $item->update(['status' => self::ITEM_SOLD]);
 
             DB::commit();
 
             session()->forget(['payment_method', 'purchase_item_id']);
 
             return redirect()->route('purchase.complete');
-        } catch (\Exception $e) {
+        } catch (ApiErrorException $e) {
             DB::rollBack();
-
-            return redirect()->route('purchase.show', ['id' => $id])->with('error', '購入処理に失敗しました。');
+            return redirect()->route('home')->with('error', '決済情報を取得できませんでした');
         }
+    }
+
+    public function cancel()
+    {
+        return redirect()->route('home')->with('error', '支払いがキャンセルされました');
     }
 
     public function changeAddress($id)
@@ -88,5 +144,10 @@ class PurchaseController extends Controller
         } else {
             return redirect()->route('purchase.show', ['id' => session('purchase_item_id')])->with('error', '更新する住所が見つかりませんでした。');
         }
+    }
+
+    public function thanks()
+    {
+        return view('purchase.complete');
     }
 }

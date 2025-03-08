@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profile/profile.css') }}">
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
             </div>
             <div class="profile__header-text">
                 <p>{{ optional(Auth::user()->address)->name ?? '未設定' }}</p>
-                <a href="{{ route('show.edit.profile') }}" class="edit-link">プロフィールを編集</a>
+                <a href="{{ route('profile.edit') }}" class="edit-link">プロフィールを編集</a>
             </div>
         </div>
 
