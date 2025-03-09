@@ -7,7 +7,7 @@
 1. `git clone git@github.com:tkdisk49/flea-market.git`
 2. `docker-compose up -d --build`
 
-> Mac の M3 チップの PC で構築しているので、docker-compose.yml ファイルの「mysql」「phpmyadmin」「mailhog」内に「platform」の項目を追加しています。
+> Mac の M3 チップの PC で構築しているので、`docker-compose.yml` ファイルの「mysql」「phpmyadmin」「mailhog」内に「platform」の項目を追加しています。
 > エラーが発生する場合は、「platform」の項目を削除して再度ビルドを実行してください。
 
 ```text
@@ -29,13 +29,13 @@ mailhog:
 1. `docker-compose exec php bash`
 2. `composer install`
 
-> composer install の際にエラーが発生する場合は、composer update を実行してから再度インストールしてください。
+> `composer install` の際にエラーが発生する場合は、`composer update` を実行してから再度インストールしてください。
 
 ```bash
 composer update
 ```
 
-3. 「.env.example」ファイルから「.env」を作成し、環境変数を変更
+3. `env.example`ファイルから`.env`を作成し、環境変数を変更
 
 ```env
 DB_CONNECTION=mysql
@@ -88,7 +88,7 @@ php artisan db:seed
 
 ## メール認証機能(Mailhog)
 
-会員登録後に認証必須の項目にアクセスするには、メール認証が必要です。
+会員登録後にユーザー認証必須の項目にアクセスするには、メール認証が必要です。
 会員登録ページにて任意の情報を登録し、メール認証画面に遷移したら [Mailhog](http://localhost:8025/) へアクセスし認証を完了してください。
 
 ## Stripe テスト決済機能のセットアップ
@@ -97,7 +97,7 @@ php artisan db:seed
 Stripe のアカウントを所持していない場合は、[Stripe](https://stripe.com/jp) から会員登録を行ってください。
 
 1. ログイン後[Stripe ダッシュボード](https://dashboard.stripe.com/test/apikeys) から、自身のテスト用公開可能キーとシークレットキーを取得
-2. `.env`ファイルを、以下のように変更
+2. `.env`ファイルの以下の項目に貼り付け
 
 ```env
 STRIPE_KEY= 公開可能キー
