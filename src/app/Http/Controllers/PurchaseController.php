@@ -17,8 +17,6 @@ use Stripe\Stripe;
 
 class PurchaseController extends Controller
 {
-    const ITEM_SOLD = 2;
-
     public function show(Request $request, $id)
     {
         $item = Item::findOrFail($id);
@@ -27,11 +25,42 @@ class PurchaseController extends Controller
 
         $paymentMethod = $request->session()->get('payment_method');
 
-        if ($item->status === self::ITEM_SOLD) {
+        if ($item->status === Item::STATUS_SOLD) {
             return redirect()->route('detail', ['id' => $id])->with('error', 'この商品は売り切れです');
         }
 
         return view('purchase.purchase', compact('item', 'address', 'paymentMethod'));
+    }
+
+    public function store(PurchaseRequest $request)
+    {
+        $user = Auth::user();
+        $item = Item::findOrFail($request->item_id);
+        $paymentMethod = $request->payment_method;
+
+        if ($item->status === Item::STATUS_SOLD) {
+            return redirect()->route('detail', ['id' => $item->id])->with('error', 'この商品はすでに購入済みです');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            Purchase::create([
+                'user_id' => $user->id,
+                'item_id' => $item->id,
+                'address_id' => $user->address->id,
+                'payment_method' => $paymentMethod,
+            ]);
+
+            $item->update(['status' => Item::STATUS_SOLD]);
+
+            DB::commit();
+
+            return redirect()->route('purchase.complete');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('home')->with('error', '購入を完了できませんでした');
+        }
     }
 
     public function updatePaymentMethod(Request $request, $id)
@@ -104,7 +133,7 @@ class PurchaseController extends Controller
                 'payment_method' => $paymentMethod,
             ]);
 
-            $item->update(['status' => self::ITEM_SOLD]);
+            $item->update(['status' => Item::STATUS_SOLD]);
 
             DB::commit();
 

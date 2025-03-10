@@ -30,7 +30,7 @@ Route::get('/login', [AuthenticatedSessionController::class, 'show'])->name('log
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
 Route::get('/register', [RegisterController::class, 'show'])->name('register');
-Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 Route::get('/purchase/complete', [PurchaseController::class, 'thanks'])->name('purchase.complete');
 

@@ -34,7 +34,7 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            return redirect()->route('profile.edit');
+            return redirect()->route('verification.notice');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => '登録に失敗しました。']);

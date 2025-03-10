@@ -23,15 +23,23 @@ class ItemController extends Controller
             $items = Item::query();
         }
 
-        if ($query) {
-            $items = $items->where('name', 'like', "%{$query}%");
+        if (!empty($query)) {
+            $items->where('name', 'like', "%{$query}%");
         }
 
         $items = $items->get();
 
         $likeItems = collect();
         if (Auth::check() && $page === 'mylist') {
-            $likeItems = Like::where('user_id', Auth::id())->with('item')->get();
+            $likeItems = Like::where('user_id', Auth::id())->with('item');
+
+            if (!empty($query)) {
+                $likeItems = $likeItems->whereHas('item', function ($q) use ($query) {
+                    $q->where('name', 'like', "%{$query}%");
+                });
+            }
+
+            $likeItems = $likeItems->get();
         } elseif ($page === 'mylist' && !Auth::check()) {
             return redirect()->route('login');
         }
@@ -87,8 +95,9 @@ class ItemController extends Controller
 
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $query = $request->query('query');
+        $page = $request->query('page', 'home');
 
-        return redirect()->route('home', ['query' => $query]);
+        return redirect()->route('home', compact('query', 'page'));
     }
 }

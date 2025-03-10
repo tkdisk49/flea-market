@@ -9,6 +9,14 @@ class Item extends Model
 {
     use HasFactory;
 
+    const STATUS_AVAILABLE = 1;
+    const STATUS_SOLD = 2;
+
+    const CONDITION_GOOD = 1;
+    const CONDITION_NO_MAJOR_DAMAGE = 2;
+    const CONDITION_SOME_DAMAGE = 3;
+    const CONDITION_BAD = 4;
+
     protected $fillable = [
         'user_id',
         'name',

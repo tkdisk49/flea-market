@@ -86,6 +86,26 @@ php artisan db:seed
 
 > シーディングで追加されるユーザーはダミーデータ商品出品者なので、会員登録画面で任意のユーザーを作成してから認証済み機能を使用してください。
 
+**PHPUnit テスト環境構築**
+
+1. テスト用アプリケーションキーの生成
+
+```bash
+php artisan key:generate --env=testing
+```
+
+2. テスト用データベースのマイグレーション
+
+```bash
+php artisan migrate --env=testing
+```
+
+3. テストの実行
+
+```bash
+php artisan test
+```
+
 ## メール認証機能(Mailhog)
 
 会員登録後にユーザー認証必須の項目にアクセスするには、メール認証が必要です。

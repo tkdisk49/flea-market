@@ -24,7 +24,9 @@
                 </div>
                 <form class="header__form" action="{{ route('items.search') }}" method="GET">
                     <div class="header__search">
-                        <input type="text" name="query" value="{{ request('query') }}" placeholder="なにをお探しですか？">
+                        <input type="hidden" name="page" value="{{ request('page', 'home') }}">
+                        <input type="text" name="query" value="{{ old('query', request('query', '')) }}"
+                            placeholder="なにをお探しですか？">
                     </div>
                 </form>
                 <nav class="header__nav">
