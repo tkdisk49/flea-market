@@ -9,10 +9,16 @@
 @endsection
 
 @section('content')
+    @if (session('error'))
+        <div class="session__error-message">
+            {{ session('error') }}
+        </div>
+    @endif
     <div id="item__container" data-page="{{ $page }}">
         <div class="item__header">
             <a class="header__tab" href="{{ route('home', ['query' => request('query', '')]) }}" data-tab="home">おすすめ</a>
-            <a class="header__tab" href="{{ Auth::check() ? route('home', ['page' => 'mylist', 'query' => request('query', '')]) : route('login') }}"
+            <a class="header__tab"
+                href="{{ Auth::check() ? route('home', ['page' => 'mylist', 'query' => request('query', '')]) : route('login') }}"
                 data-tab="mylist">マイリスト</a>
         </div>
 
