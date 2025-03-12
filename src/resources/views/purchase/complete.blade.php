@@ -1,4 +1,3 @@
-{{-- 購入完了thanks-page --}}
 @extends('layouts/app')
 
 @section('title')

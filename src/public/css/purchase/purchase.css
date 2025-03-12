@@ -196,7 +196,6 @@ select::-ms-expand {
     cursor: pointer;
 }
 
-/* 購入処理及び住所変更のエラーメッセージ */
 .session__error-message {
     width: 100%;
     margin: 0 auto;
