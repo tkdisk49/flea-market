@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Category;
-use App\Models\Comment;
 use App\Models\Item;
-use App\Models\Like;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
