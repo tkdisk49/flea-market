@@ -82,7 +82,7 @@ class ItemsTableSeeder extends Seeder
                 'brand' => 'Alpha',
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'マイク',
                 'price' => 8000,
                 'image' => 'items/mic.jpg',
@@ -91,7 +91,7 @@ class ItemsTableSeeder extends Seeder
                 'brand' => 'Bravo',
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
                 'image' => 'items/bag.jpg',
@@ -100,7 +100,7 @@ class ItemsTableSeeder extends Seeder
                 'brand' => 'Charlie',
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'タンブラー',
                 'price' => 500,
                 'image' => 'items/tumbler.jpg',
@@ -109,7 +109,7 @@ class ItemsTableSeeder extends Seeder
                 'brand' => 'Delta',
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'コーヒーミル',
                 'price' => 4000,
                 'image' => 'items/coffee.jpg',
@@ -118,7 +118,7 @@ class ItemsTableSeeder extends Seeder
                 'brand' => 'Alpha',
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'name' => 'メイクセット',
                 'price' => 2500,
                 'image' => 'items/make.jpg',
