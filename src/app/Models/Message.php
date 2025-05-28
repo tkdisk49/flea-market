@@ -13,6 +13,7 @@ class Message extends Model
         'transaction_id',
         'user_id',
         'content',
+        'image',
         'is_read',
     ];
 

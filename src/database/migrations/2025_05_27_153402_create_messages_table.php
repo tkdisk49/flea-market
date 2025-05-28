@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration
             $table->foreignId('transaction_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->text('content');
+            $table->string('image')->nullable();
             $table->boolean('is_read')->default(false)->comment('メッセージが既読かどうか');
             $table->timestamps();
         });
