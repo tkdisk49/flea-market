@@ -9,6 +9,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TransactionMessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,4 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/checkout', [PurchaseController::class, 'checkout'])->name('purchase.checkout');
     Route::get('/checkout/success', [PurchaseController::class, 'success'])->name('purchase.success');
     Route::get('/checkout/cancel', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
+
+    Route::get('/transaction/{id}/chat', [TransactionMessageController::class, 'show'])->name('transaction.chat');
+    Route::post('/transaction/{id}/chat', [TransactionMessageController::class, 'store'])->name('transaction.chat.store');
 });
