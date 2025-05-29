@@ -6,7 +6,9 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Address;
 use App\Models\Item;
+use App\Models\Message;
 use App\Models\Profile;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,21 +26,39 @@ class ProfileController extends Controller
         $user = Auth::user();
         $page = $request->query('page', 'sell');
 
+        $items = null;
+        $transactions = null;
+
         if ($page === 'sell') {
             $items = $user->items;
         } elseif ($page === 'buy') {
             $items = Item::whereHas('purchases', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })->get();
+        } elseif ($page === 'trading') {
+            $transactions = Transaction::where(function ($query) use ($user) {
+                $query->where('buyer_id', $user->id)
+                    ->orWhere('seller_id', $user->id);
+            })
+                ->whereIn('status', [Transaction::STATUS_STARTED, Transaction::STATUS_BUYER_REVIEWED])
+                ->get();
         } else {
             return redirect()->route('mypage', ['page' => 'sell']);
         }
 
-        return view('profile.profile', compact('items', 'page'));
+        $newMessageCount = Message::whereHas('transaction', function ($query) use ($user) {
+            $query->where('buyer_id', $user->id)->orWhere('seller_id', $user->id);
+        })
+            ->where('is_read', false)
+            ->where('user_id', '!=', $user->id)
+            ->count();
+
+        return view('profile.profile', compact('items', 'page', 'transactions', 'newMessageCount'));
     }
 
     public function update(ProfileRequest $profileRequest, AddressRequest $addressRequest)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $profileData = [

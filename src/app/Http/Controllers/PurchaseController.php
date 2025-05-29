@@ -7,6 +7,7 @@ use App\Http\Requests\PurchaseRequest;
 use App\Models\Address;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -131,6 +132,13 @@ class PurchaseController extends Controller
                 'item_id' => $item->id,
                 'address_id' => $user->address->id,
                 'payment_method' => $paymentMethod,
+            ]);
+
+            Transaction::create([
+                'item_id' => $item->id,
+                'buyer_id' => $user->id,
+                'seller_id' => $item->user_id,
+                'status' => Transaction::STATUS_STARTED,
             ]);
 
             $item->update(['status' => Item::STATUS_SOLD]);

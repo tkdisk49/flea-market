@@ -24,20 +24,39 @@
         <div class="profile__tab-menu">
             <a href="{{ route('mypage', ['page' => 'sell']) }}" class="{{ $page === 'sell' ? 'active' : '' }}">出品した商品</a>
             <a href="{{ route('mypage', ['page' => 'buy']) }}" class="{{ $page === 'buy' ? 'active' : '' }}">購入した商品</a>
+            <a href="{{ route('mypage', ['page' => 'trading']) }}" class="{{ $page === 'trading' ? 'active' : '' }}">
+                取引中の商品
+                @if ($newMessageCount > 0)
+                    <span class="new-message-count">{{ $newMessageCount }}</span>
+                @endif
+            </a>
         </div>
 
-        <div class="profile__item-list">
-            @foreach ($items as $item)
-                <div class="item__card">
-                    <a href="{{ route('detail', ['id' => $item->id]) }}">
-                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
-                    </a>
-                    <p class="item__name">{{ $item->name }}</p>
-                    @if ($item->status === 2)
-                        <p class="item__sold">Sold</p>
-                    @endif
-                </div>
-            @endforeach
-        </div>
+        @if ($page === 'trading')
+            <div class="profile__item-list">
+                @foreach ($transactions as $transaction)
+                    <div class="item__card">
+                        <a href="{{ route('transaction.chat', ['id' => $transaction->id]) }}">
+                            <img src="{{ asset('storage/' . $transaction->item->image) }}" alt="{{ $transaction->item->name }}">
+                        </a>
+                        <p class="item__name">{{ $transaction->item->name }}</p>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="profile__item-list">
+                @foreach ($items as $item)
+                    <div class="item__card">
+                        <a href="{{ route('detail', ['id' => $item->id]) }}">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
+                        </a>
+                        <p class="item__name">{{ $item->name }}</p>
+                        @if ($item->status === 2)
+                            <p class="item__sold">Sold</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 @endsection
