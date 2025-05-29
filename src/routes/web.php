@@ -64,4 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/transaction/{id}/chat', [TransactionMessageController::class, 'show'])->name('transaction.chat');
     Route::post('/transaction/{id}/chat', [TransactionMessageController::class, 'store'])->name('transaction.chat.store');
+
+    Route::get('/transaction/{id}/chat/{message}/edit', [TransactionMessageController::class, 'edit'])->name('transaction.chat.edit');
+    Route::patch('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'update'])->name('transaction.chat.update');
 });

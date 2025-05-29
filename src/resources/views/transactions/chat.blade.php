@@ -25,6 +25,11 @@
         </div>
 
         <div class="chat__main">
+            @if (session('error'))
+                <div class="session__error-message">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="chat__header">
                 <h1 class="chat__title">{{ $partner->name }}さんとの取引画面</h1>
                 {{-- Todo: 購入者にのみ表示され、取引を完了させ評価モーダルを表示するボタン --}}
@@ -73,13 +78,28 @@
                             <span class="chat__user-name">{{ $user->name }}</span>
                         </div>
                         {{-- 自分のメッセージ内容を表示 --}}
-                        <p class="chat__message-text">
-                            {{ $message->content }}
-                            @if ($message->image)
-                                <img src="{{ asset('storage/' . $message->image) }}" alt="メッセージ画像"
-                                    class="chat__message-image">
-                            @endif
-                        </p>
+                        @if (isset($editMessage) && $editMessage->id === $message->id)
+                        <div class="chat__message-container">
+                            <form action="{{ route('transaction.chat.update', ['id' => $transaction->id, 'message' => $message->id]) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <textarea name="content" class="chat__input-textarea">{{ old('content', $editMessage->content) }}</textarea>
+                                <button type="submit">更新</button>
+                            </form>
+                        </div>
+                        @else
+                        <div class="chat__message-container">
+                            <p class="chat__message-text">
+                                {{ $message->content }}
+                            </p>
+                            <a href="{{ route('transaction.chat.edit', ['id' => $transaction->id, 'message' => $message->id]) }}"
+                                class="chat__edit-link">編集</a>
+                        </div>
+                        @endif
+                        @if ($message->image)
+                            <img src="{{ asset('storage/' . $message->image) }}" alt="メッセージ画像"
+                                class="chat__message-image">
+                        @endif
                     </div>
                 @endforeach
             </div>

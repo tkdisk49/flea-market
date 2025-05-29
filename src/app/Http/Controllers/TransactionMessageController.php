@@ -17,7 +17,57 @@ class TransactionMessageController extends Controller
 
     public function show($id)
     {
+        $viewData = $this->getChatViewData($id);
+
+        return view('transactions.chat', $viewData);
+    }
+
+    public function store(MessageRequest $request, $id)
+    {
+        $user = Auth::user();
         $transaction = Transaction::findOrFail($id);
+
+        Message::create([
+            'transaction_id' => $transaction->id,
+            'user_id' => $user->id,
+            'content' => $request->input('content'),
+            'image' => $request->file('image') ? $request->file('image')->store('messages', 'public') : null,
+            'is_read' => false,
+        ]);
+
+        return redirect()->route('transaction.chat', ['id' => $id]);
+    }
+
+    public function edit($transactionId, $messageId)
+    {
+        $viewData = $this->getChatViewData($transactionId);
+
+        $editMessage = Message::findOrFail($messageId);
+        $viewData['editMessage'] = $editMessage;
+
+        return view('transactions.chat', $viewData);
+    }
+
+    public function update(MessageRequest $request, $transactionId, $messageId)
+    {
+        $message = Message::findOrFail($messageId);
+
+        if ($message->user_id !== Auth::id()) {
+            return redirect()
+                ->route('transaction.chat', ['id' => $transactionId])
+                ->with('error', '自分のメッセージ以外は編集できません');
+        }
+
+        $message->update([
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect()->route('transaction.chat', ['id' => $transactionId]);
+    }
+
+    private function getChatViewData($transactionId)
+    {
+        $transaction = Transaction::findOrFail($transactionId);
         $user = Auth::user();
 
         $partnerId = $transaction->buyer_id === $user->id
@@ -30,7 +80,7 @@ class TransactionMessageController extends Controller
         $otherTransactions = Transaction::with(['messages' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }])
-            ->where('id', '!=', $id)
+            ->where('id', '!=', $transactionId)
             ->where(function ($query) use ($user) {
                 $query->where('buyer_id', $user->id)
                     ->orWhere('seller_id', $user->id);
@@ -58,31 +108,14 @@ class TransactionMessageController extends Controller
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
-        return view('transactions.chat', compact(
-            'id',
+        return compact(
+            'transactionId',
             'transaction',
             'user',
             'partner',
             'otherTransactions',
             'userMessages',
             'partnerMessages'
-        ));
-    }
-
-    // メッセージ送信機能の実装
-    public function store(MessageRequest $request, $id)
-    {
-        $user = Auth::user();
-        $transaction = Transaction::findOrFail($id);
-
-        Message::create([
-            'transaction_id' => $transaction->id,
-            'user_id' => $user->id,
-            'content' => $request->input('content'),
-            'image' => $request->file('image') ? $request->file('image')->store('messages', 'public') : null,
-            'is_read' => false,
-        ]);
-
-        return redirect()->route('transaction.chat', ['id' => $id]);
+        );
     }
 }
