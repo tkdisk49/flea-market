@@ -65,6 +65,21 @@ class TransactionMessageController extends Controller
         return redirect()->route('transaction.chat', ['id' => $transactionId]);
     }
 
+    public function destroy($transactionId, $messageId)
+    {
+        $message = Message::findOrFail($messageId);
+
+        if ($message->user_id !== Auth::id()) {
+            return redirect()
+                ->route('transaction.chat', ['id' => $transactionId])
+                ->with('error', '自分のメッセージ以外は削除できません');
+        }
+
+        $message->delete();
+
+        return redirect()->route('transaction.chat', ['id' => $transactionId]);
+    }
+
     private function getChatViewData($transactionId)
     {
         $transaction = Transaction::findOrFail($transactionId);

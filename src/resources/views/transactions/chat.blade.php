@@ -84,6 +84,11 @@
                                 @csrf
                                 @method('PATCH')
                                 <textarea name="content" class="chat__input-textarea">{{ old('content', $editMessage->content) }}</textarea>
+                                @error('content')
+                                    <div class="chat__error">
+                                        <p>{{ $message }}</p>
+                                    </div>
+                                @enderror
                                 <button type="submit">更新</button>
                             </form>
                         </div>
@@ -94,6 +99,11 @@
                             </p>
                             <a href="{{ route('transaction.chat.edit', ['id' => $transaction->id, 'message' => $message->id]) }}"
                                 class="chat__edit-link">編集</a>
+                            <form action="{{ route('transaction.chat.destroy', ['id' => $transaction->id, 'message' => $message->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="chat__delete-button">削除</button>
+                            </form>
                         </div>
                         @endif
                         @if ($message->image)

@@ -67,4 +67,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/transaction/{id}/chat/{message}/edit', [TransactionMessageController::class, 'edit'])->name('transaction.chat.edit');
     Route::patch('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'update'])->name('transaction.chat.update');
+    Route::delete('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'destroy'])->name('transaction.chat.destroy');
 });
