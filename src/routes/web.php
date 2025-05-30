@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TransactionMessageController;
+use App\Http\Controllers\TransactionReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +69,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/transaction/{id}/chat/{message}/edit', [TransactionMessageController::class, 'edit'])->name('transaction.chat.edit');
     Route::patch('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'update'])->name('transaction.chat.update');
     Route::delete('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'destroy'])->name('transaction.chat.destroy');
+
+    Route::post('/transaction/{id}/review', [TransactionReviewController::class, 'store'])->name('transaction.review.store');
 });
