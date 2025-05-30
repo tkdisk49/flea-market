@@ -27,7 +27,7 @@
             <a href="{{ route('mypage', ['page' => 'trading']) }}" class="{{ $page === 'trading' ? 'active' : '' }}">
                 取引中の商品
                 @if ($newMessageCount > 0)
-                    <span class="new-message-count">{{ $newMessageCount }}</span>
+                    <span class="profile__new-message-count">{{ $newMessageCount }}</span>
                 @endif
             </a>
         </div>
@@ -39,6 +39,11 @@
                         <a href="{{ route('transaction.chat', ['id' => $transaction->id]) }}">
                             <img src="{{ asset('storage/' . $transaction->item->image) }}" alt="{{ $transaction->item->name }}">
                         </a>
+                        @if ($transaction->newMessageCount > 0)
+                        <span class="profile__new-message-count badge">
+                            {{ $transaction->newMessageCount }}
+                        </span>
+                        @endif
                         <p class="item__name">{{ $transaction->item->name }}</p>
                     </div>
                 @endforeach

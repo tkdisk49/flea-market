@@ -42,6 +42,13 @@ class ProfileController extends Controller
             })
                 ->whereIn('status', [Transaction::STATUS_STARTED, Transaction::STATUS_BUYER_REVIEWED])
                 ->get();
+
+            foreach ($transactions as $transaction) {
+                $transaction->newMessageCount = $transaction->messages()
+                    ->where('is_read', false)
+                    ->where('user_id', '!=', $user->id)
+                    ->count();
+            }
         } else {
             return redirect()->route('mypage', ['page' => 'sell']);
         }
