@@ -100,6 +100,10 @@ class TransactionMessageController extends Controller
                 $query->where('buyer_id', $user->id)
                     ->orWhere('seller_id', $user->id);
             })
+            ->whereIn('status', [
+                Transaction::STATUS_STARTED,
+                Transaction::STATUS_BUYER_REVIEWED,
+            ])
             ->get()
             ->sortByDesc(function ($transaction) {
                 return optional($transaction->messages->first())->created_at;
