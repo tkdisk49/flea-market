@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Item;
 use App\Models\Message;
 use App\Models\Profile;
+use App\Models\Review;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -60,7 +61,16 @@ class ProfileController extends Controller
             ->where('user_id', '!=', $user->id)
             ->count();
 
-        return view('profile.profile', compact('items', 'page', 'transactions', 'newMessageCount'));
+        $averageRating = Review::where('reviewee_id', $user->id)->avg('rating');
+        $roundedAverageRating = $averageRating ? round($averageRating) : null;
+
+        return view('profile.profile', compact(
+            'items',
+            'page',
+            'transactions',
+            'newMessageCount',
+            'roundedAverageRating',
+        ));
     }
 
     public function update(ProfileRequest $profileRequest, AddressRequest $addressRequest)

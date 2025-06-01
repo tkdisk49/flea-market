@@ -16,8 +16,23 @@
                     alt="プロフィール画像">
             </div>
             <div class="profile__header-text">
-                <p>{{ optional(Auth::user()->address)->name ?? '未設定' }}</p>
-                <a href="{{ route('profile.edit') }}" class="edit-link">プロフィールを編集</a>
+                <div class="profile__header-text--info">
+                    <p>{{ optional(Auth::user()->address)->name ?? '未設定' }}</p>
+                    @if (isset($roundedAverageRating))
+                        <div class="profile__rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $roundedAverageRating)
+                                    <span class="profile__star profile__star--colored">&#9733;</span>
+                                @else
+                                    <span class="profile__star profile__star--empty">&#9733;</span>
+                                @endif
+                            @endfor
+                        </div>
+                    @endif
+                </div>
+                <div class="profile__header-text--link">
+                    <a href="{{ route('profile.edit') }}" class="edit-link">プロフィールを編集</a>
+                </div>
             </div>
         </div>
 
@@ -37,12 +52,13 @@
                 @foreach ($transactions as $transaction)
                     <div class="item__card">
                         <a href="{{ route('transaction.chat', ['id' => $transaction->id]) }}">
-                            <img src="{{ asset('storage/' . $transaction->item->image) }}" alt="{{ $transaction->item->name }}">
+                            <img src="{{ asset('storage/' . $transaction->item->image) }}"
+                                alt="{{ $transaction->item->name }}">
                         </a>
                         @if ($transaction->newMessageCount > 0)
-                        <span class="profile__new-message-count badge">
-                            {{ $transaction->newMessageCount }}
-                        </span>
+                            <span class="profile__new-message-count badge">
+                                {{ $transaction->newMessageCount }}
+                            </span>
                         @endif
                         <p class="item__name">{{ $transaction->item->name }}</p>
                     </div>
