@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionMessageController extends Controller
 {
-    // チャット画面の表示、メッセージの一覧取得
-    // メッセージ送信処理
-    // メッセージの編集、削除の処理
-
     public function show($id)
     {
         $viewData = $this->getChatViewData($id);
@@ -91,7 +87,6 @@ class TransactionMessageController extends Controller
 
         $partner = User::findOrFail($partnerId);
 
-        // 現在の取引以外の取引中の商品がある場合、その商品名を新着メッセージ順で取得
         $otherTransactions = Transaction::with(['messages' => function ($query) {
             $query->orderBy('created_at', 'desc');
         }])
@@ -110,18 +105,10 @@ class TransactionMessageController extends Controller
             })
             ->values();
 
-        // メッセージを相手と自分のをわけて取得
-        $userMessages = $transaction->messages()
-            ->where('user_id', $user->id)
+        $messages = $transaction->messages()
             ->orderBy('created_at', 'asc')
             ->get();
 
-        $partnerMessages = $transaction->messages()
-            ->where('user_id', $partner->id)
-            ->orderBy('created_at', 'asc')
-            ->get();
-
-        // メッセージの読み込み状態を更新
         $transaction->messages()
             ->where('user_id', $partner->id)
             ->where('is_read', false)
@@ -133,8 +120,7 @@ class TransactionMessageController extends Controller
             'user',
             'partner',
             'otherTransactions',
-            'userMessages',
-            'partnerMessages'
+            'messages'
         );
     }
 }
