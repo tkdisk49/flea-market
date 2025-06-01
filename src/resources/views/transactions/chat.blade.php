@@ -31,11 +31,15 @@
         <div class="chat__main">
             @if (session('error'))
                 <div class="session__error-message">
-                    {{ session('error') }}
+                    <p>{{ session('error') }}</p>
                 </div>
             @endif
             <div class="chat__header">
-                <h1 class="chat__title">{{ $partner->name }}さんとの取引画面</h1>
+                <div class="header__user-info">
+                    <img src="{{ $partner->profile && $partner->profile->image ? asset('storage/' . $partner->profile->image) : asset('images/default.jpg') }}"
+                        alt="プロフィール画像" class="header__user-image">
+                    <h1 class="header__title">{{ $partner->name }}さんとの取引画面</h1>
+                </div>
 
                 @if ($transaction->status === Transaction::STATUS_STARTED && $transaction->buyer_id === $user->id)
                     <label for="modal-toggle" class="chat__complete-button">取引を完了する</label>
@@ -95,78 +99,81 @@
                         </div>
                         {{-- 相手のメッセージ内容 --}}
                         <p class="chat__message-text">
-                            {{ $message->content }}
-                            @if ($message->image)
+                            {!! nl2br(e($message->content)) !!}
+                        </p>
+                        @if ($message->image)
+                            <div class="chat__message-image-container">
                                 <img src="{{ asset('storage/' . $message->image) }}" alt="メッセージ画像"
                                     class="chat__message-image">
-                            @endif
-                        </p>
+                            </div>
+                        @endif
                     </div>
                 @endforeach
 
                 @foreach ($userMessages as $message)
                     <div class="chat__message chat__message--sent">
-                        <div class="chat__user-info">
+                        <div class="chat__user-info chat__user-info--self">
                             {{-- 自分のプロフィール画像 --}}
+                            <span class="chat__user-name">{{ $user->name }}</span>
                             <img src="{{ $user->profile && $user->profile->image ? asset('storage/' . $user->profile->image) : asset('images/default.jpg') }}"
                                 alt="プロフィール画像" class="chat__user-image">
-                            <span class="chat__user-name">{{ $user->name }}</span>
                         </div>
                         {{-- 自分のメッセージ内容 --}}
                         @if (isset($editMessage) && $editMessage->id === $message->id)
                             <div class="chat__message-container">
                                 <form
                                     action="{{ route('transaction.chat.update', ['id' => $transaction->id, 'message' => $message->id]) }}"
-                                    method="POST">
+                                    method="POST" class="chat__edit-form">
                                     @csrf
                                     @method('PATCH')
                                     <textarea name="content" class="chat__input-textarea">{{ old('content', $editMessage->content) }}</textarea>
-                                    @error('content')
-                                        <div class="chat__error">
-                                            <p>{{ $message }}</p>
-                                        </div>
-                                    @enderror
-                                    <button type="submit">更新</button>
+                                    <button type="submit" class="chat__edit-submit">更新</button>
                                 </form>
                             </div>
                         @else
                             <div class="chat__message-container">
                                 <p class="chat__message-text">
-                                    {{ $message->content }}
+                                    {!! nl2br(e($message->content)) !!}
                                 </p>
-                                <a href="{{ route('transaction.chat.edit', ['id' => $transaction->id, 'message' => $message->id]) }}"
-                                    class="chat__edit-link">編集</a>
-                                <form
-                                    action="{{ route('transaction.chat.destroy', ['id' => $transaction->id, 'message' => $message->id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="chat__delete-button">削除</button>
-                                </form>
+                                @if ($message->image)
+                                    <div class="chat__message-image-container">
+                                        <img src="{{ asset('storage/' . $message->image) }}" alt="メッセージ画像"
+                                            class="chat__message-image">
+                                    </div>
+                                @endif
+                                <div class="chat__button-group">
+                                    <a href="{{ route('transaction.chat.edit', ['id' => $transaction->id, 'message' => $message->id]) }}"
+                                        class="chat__edit-link">編集</a>
+                                    <form
+                                        action="{{ route('transaction.chat.destroy', ['id' => $transaction->id, 'message' => $message->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="chat__delete-button">削除</button>
+                                    </form>
+                                </div>
                             </div>
-                        @endif
-                        @if ($message->image)
-                            <img src="{{ asset('storage/' . $message->image) }}" alt="メッセージ画像"
-                                class="chat__message-image">
                         @endif
                     </div>
                 @endforeach
             </div>
 
             <div class="chat__input">
+                @if ($errors->any())
+                    <div class="chat__error">
+                        <p>{{ $errors->first() }}</p>
+                    </div>
+                @endif
                 <form action="{{ route('transaction.chat.store', ['id' => $transaction->id]) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    @if ($errors->any())
-                        <div class="chat__error">
-                            <p>{{ $errors->first() }}</p>
-                        </div>
-                    @endif
                     <textarea name="content" class="chat__input-textarea" placeholder="取引メッセージを記入して下さい"></textarea>
                     <input type="file" name="image" id="image" class="chat__input-file"
                         accept="image/png, image/jpeg" value="画像を追加">
                     <label for="image" class="chat__input-label">画像を追加</label>
-                    <button type="submit" class="chat__send-button">送信</button>
+                    <button type="submit" class="chat__send-button">
+                        <img src="{{ asset('images/inputbutton.png') }}" alt="送信">
+                    </button>
                 </form>
             </div>
         </div>
