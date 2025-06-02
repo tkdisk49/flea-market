@@ -9,6 +9,8 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TransactionMessageController;
+use App\Http\Controllers\TransactionReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,4 +62,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/checkout', [PurchaseController::class, 'checkout'])->name('purchase.checkout');
     Route::get('/checkout/success', [PurchaseController::class, 'success'])->name('purchase.success');
     Route::get('/checkout/cancel', [PurchaseController::class, 'cancel'])->name('purchase.cancel');
+
+    Route::get('/transaction/{id}/chat', [TransactionMessageController::class, 'show'])->name('transaction.chat');
+    Route::post('/transaction/{id}/chat', [TransactionMessageController::class, 'store'])->name('transaction.chat.store');
+
+    Route::get('/transaction/{id}/chat/{message}/edit', [TransactionMessageController::class, 'edit'])->name('transaction.chat.edit');
+    Route::patch('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'update'])->name('transaction.chat.update');
+    Route::delete('/transaction/{id}/chat/{message}', [TransactionMessageController::class, 'destroy'])->name('transaction.chat.destroy');
+
+    Route::post('/transaction/{id}/review', [TransactionReviewController::class, 'store'])->name('transaction.review.store');
 });
