@@ -182,6 +182,7 @@ password: password
 - Docker
 - Mailhog(メール認証機能)
 - Stripe(決済システム)
+- JavaScript
 
 ## ER 図
 

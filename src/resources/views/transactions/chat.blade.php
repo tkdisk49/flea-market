@@ -163,7 +163,7 @@
                 <form action="{{ route('transaction.chat.store', ['id' => $transaction->id]) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    <textarea name="content" class="chat__input-textarea" placeholder="取引メッセージを記入して下さい"></textarea>
+                    <textarea name="content" id="chat-input" class="chat__input-textarea" placeholder="取引メッセージを記入して下さい">{{ old('content') }}</textarea>
                     <input type="file" name="image" id="image" class="chat__input-file"
                         accept="image/png, image/jpeg" value="画像を追加">
                     <label for="image" class="chat__input-label">画像を追加</label>
@@ -174,4 +174,11 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        window.transactionId = @json($transaction->id);
+    </script>
+    <script src="{{ asset('js/chat.js') }}"></script>
 @endsection
